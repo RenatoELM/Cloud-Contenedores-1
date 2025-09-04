@@ -1,6 +1,6 @@
 # Inventario Simple — 3 contenedores (Frontend, Backend, Base de Datos)
 
-Este documento describe **cómo se configuraron los contenedores**, **cómo interactúan entre sí** y los **puntos clave** para operar y mantener el proyecto. Está pensado para ser tu **README** del laboratorio.
+En este documento describe **todo lo necesario para entender la configuración de los contenedores y su funcionamiento** para operar y mantener el proyecto.
 
 ---
 
