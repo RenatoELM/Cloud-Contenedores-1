@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    container_name: inventory_db
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_USER: inventory_user
+      POSTGRES_PASSWORD: inventory_pass
+    ports:
+      - "5433:5432" # usa 5433 en tu host para evitar choque con 5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inventory_user -d inventory -h localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    container_name: inventory_api
+    environment:
+      DATABASE_URL: postgresql://inventory_user:inventory_pass@db:5432/inventory
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./frontend
+    container_name: inventory_frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
