@@ -93,7 +93,7 @@ Compose crea una **red por proyecto**. Todos los servicios están en esa red, po
 ## 4) Contenedor de Base de Datos (PostgreSQL)
 
 **Arranque e inicialización:** La imagen oficial ejecuta cualquier `*.sql` en `/docker-entrypoint-initdb.d/` **solo la primera vez** que se crea el volumen de datos. Por eso:
-- Si cambias `init.sql` pero ya existe el volumen `db_data`, **no se re-ejecuta** automáticamente.
+- Si se cambia `init.sql` pero ya existe el volumen `db_data`, **no se re-ejecuta** automáticamente.
 - Para forzar re-seed: `docker compose down -v && docker compose up -d --build`.
 
 **Healthcheck:** Se usa `pg_isready` para confirmar que la DB acepta conexiones antes de levantar el backend. Esto evita errores de “connection refused” al inicio.
